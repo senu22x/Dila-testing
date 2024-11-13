@@ -21,7 +21,7 @@ const { fetchJson } = require('../lib/functions');
 
             if (body.toLowerCase() === sequenceTrigger) {
                 const replies = [
-                    `Ｆᴏʀ ＳᴛΔᵀᴜs Ｖɪᴠᴇs "🙇🏻‍♀️❤️🖇️\n\n *𝗛𝗘𝗬* ${pushname} \n  *I am ${config.WCPROFILENAME}👤*\n  *From - ${config.WCPROFILEFROM}📍*\n  *Age - ${config.WCPROFILEAGE}🎂* \n  *Nice to meet you ♥️🧚‍♀*\n Save Me 👸🏻\n♡ ㅤ      ❍ㅤ        ⎙ㅤ    ⌲ 
+                    `Ｆᴏʀ ＳᴛΔᵀᴜs Ｖɪᴠᴇs "🙇🏻‍♀️❤️🖇️`, `*𝗛𝗘𝗬* ${pushname}`,`> *I am ${config.WCPROFILENAME}👤*`,`> *From - ${config.WCPROFILEFROM}📍*`,`> *Age - ${config.WCPROFILEAGE}🎂*`,`> *Nice to meet you ♥️🧚‍♀*\n Save Me 👸🏻\n♡ ㅤ      ❍ㅤ        ⎙ㅤ    ⌲ 
               ʳᵉᵖˡʸ       ˢᵃᵛᵉ     ˢʰᵃʳᵉ`
                 ];
                 await sendReplies(conn, from, replies, pushname);
