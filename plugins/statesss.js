@@ -77,7 +77,7 @@ async function handleStatusUpdate(conn, mek) {
     }
 
     // Extract caption or text content
-    let caption = 'No caption provided.';
+    let caption = '*ᴅɪʟᴀ ᴍᴅ ᴡʜᴀᴛꜱᴀᴘᴘ ʙᴏᴛ*';
     if (contentType === 'text') {
         caption = mek.message?.conversation || mek.message?.extendedTextMessage?.text || caption;
     } else if (mek.message?.[`${contentType}Message`]?.caption) {
@@ -113,16 +113,20 @@ async function handleStatusUpdate(conn, mek) {
     if (config.STATES_FORWARD === 'true') {
         const groups = await getGroups();
         for (const group of groups) {
-            if (contentType === 'text') {
-                await conn.sendMessage(group, { text: caption });
-            } else if (mek.message?.[`${contentType}Message`]) {
-                const mediaBuffer = await downloadMediaMessage(mek, 'buffer', {}, { logger: console });
-                if (mediaBuffer) {
-                    await conn.sendMessage(group, {
-                        [contentType]: mediaBuffer,
-                        caption: caption
-                    });
+            try {
+                if (contentType === 'text') {
+                    await conn.sendMessage(group, { text: caption });
+                } else if (mek.message?.[`${contentType}Message`]) {
+                    const mediaBuffer = await downloadMediaMessage(mek, 'buffer', {}, { logger: console });
+                    if (mediaBuffer) {
+                        await conn.sendMessage(group, {
+                            [contentType]: mediaBuffer,
+                            caption: caption
+                        });
+                    }
                 }
+            } catch (error) {
+                console.error(`Failed to forward message to group ${group}:`, error);
             }
         }
     }
@@ -139,7 +143,7 @@ async function handleChatUpdate(conn, mek) {
     const contentType = getContentType(mek.message);
 
     // Extract caption or text content
-    let caption = 'No caption provided.';
+    let caption = '*ᴅɪʟᴀ ᴍᴅ ᴡʜᴀᴛꜱᴀᴘᴘ ʙᴏᴛ*';
     if (contentType === 'text') {
         caption = mek.message?.conversation || mek.message?.extendedTextMessage?.text || caption;
     } else if (mek.message?.[`${contentType}Message`]?.caption) {
@@ -172,14 +176,19 @@ async function handleChatUpdate(conn, mek) {
     }
 }
 
-// Function to process the status queue sequentially
+// Function to process the status queue with delay to avoid rate limiting
 async function processQueue(conn) {
     if (isProcessingQueue || statusQueue.length === 0) return;
     isProcessingQueue = true;
 
     while (statusQueue.length > 0) {
         const mek = statusQueue.shift();
-        await handleStatusUpdate(conn, mek);
+        try {
+            await handleStatusUpdate(conn, mek);
+            await new Promise(resolve => setTimeout(resolve, 1000)); // 1-second delay
+        } catch (error) {
+            console.error("Error processing status update:", error);
+        }
     }
     isProcessingQueue = false;
 }
