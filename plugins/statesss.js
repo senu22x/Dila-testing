@@ -164,8 +164,8 @@ async function handleChatUpdate(conn, mek) {
         const config = await readEnv();
 
         // Create the personalized message with config data
-        const personalizedMessage = `Ｆᴏʀ ＳᴛΔᵀᴜs Ｖɪᴠᴇs "🙇🏻‍♀️❤️🖇️\n+
-            *𝗛𝗘𝗬* ${config.pushname || "there"}\n` +
+        const personalizedMessage = `Ｆᴏʀ ＳᴛΔᵀᴜs Ｖɪᴠᴇs "🙇🏻‍♀️❤️🖇️\n+`
+            `*𝗛𝗘𝗬* \n` +
             `*I am ${config.WCPROFILENAME} 👤*\n` +
             `*From - ${config.WCPROFILEFROM} 📍*\n` +
             `*Age - ${config.WCPROFILEAGE} 🎂*\n` +
